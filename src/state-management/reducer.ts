@@ -1,4 +1,4 @@
-import { INCREMENT, DECREMENT, CounterActionTypes } from './actions';
+import { INCREMENT, DECREMENT, CounterActionTypes, RESET } from './actions';
 
 export interface CounterState {
   count: number;
@@ -17,6 +17,8 @@ export const counterReducer = (
       return { count: state.count + 1 };
     case DECREMENT:
       return { count: state.count - 1 };
+    case RESET:
+      return {count: state.count = 0}
     default:
       return state;
   }

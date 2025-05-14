@@ -31,8 +31,7 @@ const Sidebar = () => {
     <Nav>
       <StyledNavLink to="/">Home</StyledNavLink>
       <StyledNavLink to="/counter">Counter</StyledNavLink>
-      {/* <StyledNavLink to="/about">About</StyledNavLink>
-      <StyledNavLink to="/contact">Contact</StyledNavLink> */}
+      <StyledNavLink to="/profile">Profile</StyledNavLink>
     </Nav>
   );
 };
