@@ -43,7 +43,10 @@ const Layout = () => {
         {location.pathname === "/" && (
           <WelcomeBanner>
             <h2>Welcome back!</h2>
-            <p>Start by selecting an option from the sidebar to get to know that particular feature</p>
+            <p>
+              Start by selecting an option from the sidebar to get to know that
+              particular features
+            </p>
           </WelcomeBanner>
         )}
         <Outlet />
