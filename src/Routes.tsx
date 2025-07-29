@@ -4,6 +4,7 @@ import ProfileCard from "./components/ProfileCard";
 import TestimonialCard from "./components/TestimonialCard";
 import BlogCard from "./components/BlogCard";
 import Counter from "./components/Counter";
+import UseStateExample from "./components/ReactHooks.tsx/UseStateExample";
 
 // import NotFound from './pages/NotFound';
 
@@ -25,4 +26,8 @@ export const AppRoutes: RouteObject[] = [
     path: "/testimonial",
     element: <TestimonialCard />,
   },
+  {
+    path: "/hooks",
+    element: <UseStateExample />
+  }
 ];

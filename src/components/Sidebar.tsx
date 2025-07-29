@@ -32,6 +32,7 @@ const Sidebar = () => {
       <StyledNavLink to="/">Home</StyledNavLink>
       <StyledNavLink to="/counter">Counter</StyledNavLink>
       <StyledNavLink to="/profile">Profile</StyledNavLink>
+      <StyledNavLink to="/hooks">React Hooks</StyledNavLink>
     </Nav>
   );
 };
