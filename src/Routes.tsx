@@ -5,6 +5,10 @@ import TestimonialCard from "./components/TestimonialCard";
 import BlogCard from "./components/BlogCard";
 import Counter from "./components/Counter";
 import { HooksData } from "./components/ReactHooks/HooksData";
+import Autocomplete from "./components/Autocomplete";
+import DebounceExample from "./components/DebounceExample";
+import Pagination from "./components/Pagination";
+import InfiniteScroll from "./components/InfiniteScroll";
 
 // import NotFound from './pages/NotFound';
 
@@ -29,5 +33,21 @@ export const AppRoutes: RouteObject[] = [
   {
     path: "/hooks",
     element: <HooksData />,
+  },
+  {
+    path: "/autocomplete",
+    element: <Autocomplete />,
+  },
+  {
+    path: "/debounce-example",
+    element: <DebounceExample />,
+  },
+  {
+    path: "/pagination",
+    element: <Pagination />,
+  },
+  {
+    path: "/infinite-scroll",
+    element: <InfiniteScroll />,
   },
 ];

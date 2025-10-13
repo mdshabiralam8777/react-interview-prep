@@ -314,6 +314,106 @@ function UserProfile({ userId }) {
       "Practical: Show an example where it fixes visual flickering",
     ],
   },
+  {
+    name: "React Lazy Loading",
+    definition: `
+      Lazy loading is a technique to load components only when they're needed
+      Improves initial load performance by code-splitting your application
+      Uses React.lazy() with dynamic imports and Suspense for fallback UI
+    `,
+    characteristics: [
+      "⚡ Performance Boost - Reduces initial bundle size",
+      "🧩 On-Demand Loading - Components load when rendered",
+      "🔄 Supports SSR - Through loadable-components or similar",
+      "⏳ Fallback UI - Show loading states with Suspense",
+      "🚀 Built-in API - React.lazy() + dynamic imports",
+    ],
+    basicExampleCode: `import React, { Suspense, lazy } from 'react';
+  
+  // Regular import (eager loading)
+  // import HeavyComponent from './HeavyComponent';
+  
+  // Lazy load the component
+  const HeavyComponent = lazy(() => import('./HeavyComponent'));
+  
+  function App() {
+    return (
+      <div>
+        <h1>My App</h1>
+        <Suspense 
+          fallback={
+            // Show while component loads
+            <div className="loader">Loading...</div>
+          }
+        >
+          {/* This won't load until rendered */}
+          <HeavyComponent />
+        </Suspense>
+      </div>
+    );
+  }`,
+    advancedExampleCode: `import React, { Suspense, lazy, useState } from 'react';
+  
+  // Preload pattern for better UX
+  const preloadComponent = () => {
+    // Start loading before needed
+    const HeavyComponent = lazy(() => import('./HeavyComponent'));
+    return HeavyComponent;
+  };
+  
+  function Dashboard() {
+    const [showChart, setShowChart] = useState(false);
+    const [ChartComponent, setChartComponent] = useState(null);
+  
+    // Preload on hover or other user interaction
+    const handleMouseEnter = () => {
+      const Component = lazy(() => import('./ComplexChart'));
+      setChartComponent(<Component />);
+    };
+  
+    return (
+      <div>
+        <button 
+          onClick={() => setShowChart(true)}
+          onMouseEnter={handleMouseEnter}
+        >
+          Show Analytics
+        </button>
+  
+        <Suspense fallback={<div>Loading dashboard...</div>}>
+          {showChart && (
+            ChartComponent || 
+            lazy(() => import('./ComplexChart'))()
+          )}
+        </Suspense>
+      </div>
+    );
+  }`,
+    commonInterviewPoints: [
+      " Bundling: How does lazy loading affect webpack chunks?",
+      " SSR: Why can't React.lazy be used directly with server rendering?",
+      " Error Handling: How to catch loading errors? (Error Boundaries)",
+      " Optimization: When should you preload lazy components?",
+      " Tradeoffs: Lazy loading vs. hydration performance in SSR",
+      " Implementation: How to test lazy-loaded components?",
+      " Patterns: Best practices for route-based code splitting",
+    ],
+    bestPractices: `
+       🏆 Best Practices:
+       1. Route-level splitting - Most effective for pages
+       2. Prefetch on hover - For better UX
+       3. Named chunks - For better caching
+       4. Error boundaries - Catch loading failures
+       5. Avoid over-splitting - Network requests have overhead
+  
+       Webpack Magic Comments:
+      const Component = lazy(() => import(
+        /* webpackChunkName: "chart-component" */
+        /* webpackPrefetch: true */
+        './ComplexChart'
+      ));
+    `,
+  },
 ];
 
 export const HooksData: React.FC = () => {
