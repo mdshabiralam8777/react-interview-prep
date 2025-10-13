@@ -1,6 +1,6 @@
 // src/components/Sidebar.tsx
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 const Nav = styled.nav`
   display: flex;
@@ -32,7 +32,11 @@ const Sidebar = () => {
       <StyledNavLink to="/">Home</StyledNavLink>
       <StyledNavLink to="/counter">Counter</StyledNavLink>
       <StyledNavLink to="/profile">Profile</StyledNavLink>
-      <StyledNavLink to="/hooks">React Hooks</StyledNavLink>
+      <StyledNavLink to="/hooks">React Concepts</StyledNavLink>
+      <StyledNavLink to="/autocomplete">Auto-Complete</StyledNavLink>
+      <StyledNavLink to="/debounce-example">Debounce</StyledNavLink>
+      <StyledNavLink to="/pagination">Pagination</StyledNavLink>
+      <StyledNavLink to="/infinite-scroll">Infinite Scroll</StyledNavLink>
     </Nav>
   );
 };
