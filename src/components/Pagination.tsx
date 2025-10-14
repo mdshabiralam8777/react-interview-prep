@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import Icons from "../assets/Iocns";
 
 interface todo {
   id: number;
@@ -116,14 +117,14 @@ const Pagination: React.FC = () => {
                 style={{ cursor: "pointer" }}
                 onClick={handleIdSort}
               >
-                ID
+                ID <Icons name="sort" size={10} />
               </th>
               <th
                 scope="col"
                 style={{ cursor: "pointer" }}
                 onClick={handleUserIdSort}
               >
-                User Id
+                User Id <Icons name="sort" size={10} />
               </th>
               <th
                 scope="col"
@@ -131,14 +132,14 @@ const Pagination: React.FC = () => {
                 style={{ cursor: "pointer" }}
                 onClick={handleTodoSort}
               >
-                Todo
+                Todo <Icons name="sort" size={10} />
               </th>
               <th
                 scope="col"
                 style={{ cursor: "pointer" }}
                 onClick={handleCompletedSort}
               >
-                completed
+                completed <Icons name="sort" size={10} />
               </th>
             </tr>
           </thead>
