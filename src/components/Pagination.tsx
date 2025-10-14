@@ -9,9 +9,12 @@ interface todo {
 }
 
 const Pagination: React.FC = () => {
-  //   const [pageSize, setPageSize] = useState<number>(10);
   const [pageCount, setPageCount] = useState<number>(0);
   const [todos, setTodos] = useState<todo[]>([]);
+  const [idSorted, setIdSorted] = useState<boolean>(false);
+  const [userIdSorted, setUserIdSorted] = useState<boolean>(false);
+  const [todoSorted, setTodoSorted] = useState<boolean>(false);
+  const [completedSorted, setCompletedSorted] = useState<boolean>(false);
 
   const getTodos = async (skip: number) => {
     try {
@@ -36,6 +39,62 @@ const Pagination: React.FC = () => {
     setTodos([]);
     getTodos(pageCount);
   }, [pageCount]);
+
+  const handleUserIdSort = () => {
+    if (userIdSorted) {
+      setUserIdSorted(!userIdSorted);
+      setTodos(todos.reverse());
+      return;
+    }
+    const sortedTodos = [...(todos || [])].sort((a, b) => a.userId - b.userId);
+    if (!userIdSorted) {
+      setUserIdSorted(!userIdSorted);
+      setTodos(sortedTodos);
+    }
+  };
+
+  const handleIdSort = () => {
+    if (idSorted) {
+      setIdSorted(!idSorted);
+      setTodos(todos.reverse());
+      return;
+    }
+    const sortedTodos = [...(todos || [])].sort((a, b) => a.id - b.id);
+    if (!idSorted) {
+      setIdSorted(!idSorted);
+      setTodos(sortedTodos);
+    }
+  };
+
+  const handleTodoSort = () => {
+    if (todoSorted) {
+      setTodoSorted(!todoSorted);
+      setTodos(todos.reverse());
+      return;
+    }
+    const sortedTodos = [...(todos || [])].sort((a, b) =>
+      a.todo.localeCompare(b.todo)
+    );
+    if (!todoSorted) {
+      setTodoSorted(!todoSorted);
+      setTodos(sortedTodos);
+    }
+  };
+
+  const handleCompletedSort = () => {
+    if (completedSorted) {
+      setCompletedSorted(!completedSorted);
+      setTodos(todos.reverse());
+      return;
+    }
+    const sortedTodos = [...(todos || [])].sort(
+      (a, b) => Number(a.completed) - Number(b.completed)
+    );
+    if (!completedSorted) {
+      setCompletedSorted(!completedSorted);
+      setTodos(sortedTodos);
+    }
+  };
   return (
     <div className="container">
       {!todos.length && (
@@ -52,10 +111,35 @@ const Pagination: React.FC = () => {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th scope="col">ID</th>
-              <th scope="col">User Id</th>
-              <th scope="col">Todo</th>
-              <th scope="col">completed</th>
+              <th
+                scope="col"
+                style={{ cursor: "pointer" }}
+                onClick={handleIdSort}
+              >
+                ID
+              </th>
+              <th
+                scope="col"
+                style={{ cursor: "pointer" }}
+                onClick={handleUserIdSort}
+              >
+                User Id
+              </th>
+              <th
+                scope="col"
+                // className="pe-auto"
+                style={{ cursor: "pointer" }}
+                onClick={handleTodoSort}
+              >
+                Todo
+              </th>
+              <th
+                scope="col"
+                style={{ cursor: "pointer" }}
+                onClick={handleCompletedSort}
+              >
+                completed
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -76,12 +160,13 @@ const Pagination: React.FC = () => {
           type="button"
           className="btn btn-outline-dark"
           onClick={() => handlePagination("prev")}
+          disabled={pageCount <= 0}
         >
           Prev
         </button>
         <input
           type="text"
-          placeholder="got to page"
+          placeholder={`Page ${pageCount + 1}`}
           style={{ width: "105px" }}
           className="p-2 rounded border mx-2"
           onChange={(event: ChangeEvent<HTMLInputElement>) =>
@@ -90,6 +175,8 @@ const Pagination: React.FC = () => {
                 ? 25
                 : Number(event?.target.value) < 0
                 ? 0
+                : Number(event?.target.value) === 0
+                ? pageCount
                 : Number(event?.target.value)
             )
           }
@@ -98,6 +185,7 @@ const Pagination: React.FC = () => {
           type="button"
           className="btn btn-outline-dark"
           onClick={() => handlePagination("next")}
+          disabled={pageCount >= 25}
         >
           Next
         </button>
