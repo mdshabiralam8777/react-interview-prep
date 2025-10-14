@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 
 const SidebarWrapper = styled.aside`
-  flex: 0 0 250px;
+  flex: 0 0 350px;
   background: #f8f9fa;
   border-right: 1px solid #dee2e6;
   overflow-y: auto;

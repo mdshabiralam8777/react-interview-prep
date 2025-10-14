@@ -35,7 +35,7 @@ const Sidebar = () => {
       <StyledNavLink to="/hooks">React Concepts</StyledNavLink>
       <StyledNavLink to="/autocomplete">Auto-Complete</StyledNavLink>
       <StyledNavLink to="/debounce-example">Debounce</StyledNavLink>
-      <StyledNavLink to="/pagination">Pagination</StyledNavLink>
+      <StyledNavLink to="/pagination">Pagination & sorting Table</StyledNavLink>
       <StyledNavLink to="/infinite-scroll">Infinite Scroll</StyledNavLink>
     </Nav>
   );
