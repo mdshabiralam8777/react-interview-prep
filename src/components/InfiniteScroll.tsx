@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { createApi } from "unsplash-js";
 import { UNSPALSH_CAT_IMG } from "../constan";
+import Skeleton from "./Skeleton";
 
 const accessKey = process.env.REACT_APP_UNSPLASH_ACCESS_KEY;
 
@@ -93,7 +94,7 @@ const InfiniteScroll: React.FC = () => {
       <h2 className="my-4 pb-4 text-center">Infinite Scroll with Observer</h2>
       <div className="row justify-content-center">
         <div className="col-lg-8 col-md-10">
-          {photos.map((photo, index) => {
+          {photos?.map((photo, index) => {
             // If this is the last photo in the current list, attach the ref to it.
             if (photos.length === index + 1) {
               return (
@@ -105,16 +106,11 @@ const InfiniteScroll: React.FC = () => {
               return <PhotoCard key={photo.id} photo={photo} />;
             }
           })}
+          {loading && (
+            <Skeleton width="678px" height="450px" count={3}></Skeleton>
+          )}
         </div>
       </div>
-
-      {loading && (
-        <div className="d-flex justify-content-center my-4">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
-      )}
 
       {!hasMore && photos.length > 0 && (
         <div className="alert alert-info my-4 text-center" role="alert">
