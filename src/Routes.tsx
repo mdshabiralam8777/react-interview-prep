@@ -9,6 +9,8 @@ import Autocomplete from "./components/Autocomplete";
 import DebounceExample from "./components/DebounceExample";
 import Pagination from "./components/Pagination";
 import InfiniteScroll from "./components/InfiniteScroll";
+import Skeleton from "./components/Skeleton";
+import Todo from "./components/Todo";
 
 // import NotFound from './pages/NotFound';
 
@@ -49,5 +51,13 @@ export const AppRoutes: RouteObject[] = [
   {
     path: "/infinite-scroll",
     element: <InfiniteScroll />,
+  },
+  {
+    path: "/skeleton",
+    element: <Skeleton width={"40%"} height={"30%"} />,
+  },
+  {
+    path: "/todo",
+    element: <Todo />,
   },
 ];

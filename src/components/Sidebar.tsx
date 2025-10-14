@@ -37,6 +37,8 @@ const Sidebar = () => {
       <StyledNavLink to="/debounce-example">Debounce</StyledNavLink>
       <StyledNavLink to="/pagination">Pagination & sorting Table</StyledNavLink>
       <StyledNavLink to="/infinite-scroll">Infinite Scroll</StyledNavLink>
+      <StyledNavLink to="/skeleton">Skeleton</StyledNavLink>
+      <StyledNavLink to="/todo">To-Do</StyledNavLink>
     </Nav>
   );
 };
