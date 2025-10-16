@@ -414,6 +414,938 @@ function UserProfile({ userId }) {
       ));
     `,
   },
+  {
+    name: "useTranslation",
+    definition:
+      "The useTranslation hook is part of react-i18next that provides internationalization (i18n) functionality, allowing components to access translation functions and i18n instances.",
+    characteristics: [
+      "Translation function: Provides t() function to translate keys into localized strings",
+      "Namespace support: Allows loading and using multiple translation namespaces",
+      "Language switching: Enables dynamic language changes with automatic re-renders",
+      "Interpolation and formatting: Supports variable interpolation, pluralization, and date/number formatting",
+    ],
+    basicExampleCode: `import { useTranslation } from 'react-i18next';
+
+function WelcomeComponent() {
+  const { t, i18n } = useTranslation();
+  
+  return (
+    <div>
+      <h1>{t('welcome.title')}</h1>
+      <p>{t('welcome.message')}</p>
+      <button onClick={() => i18n.changeLanguage('en')}>English</button>
+      <button onClick={() => i18n.changeLanguage('es')}>Español</button>
+    </div>
+  );
+}`,
+    advancedExampleCode: `import { useTranslation } from 'react-i18next';
+
+interface User {
+  name: string;
+  notificationCount: number;
+}
+
+function UserDashboard() {
+  const { t, i18n } = useTranslation(['dashboard', 'common']);
+  const [user, setUser] = useState<User>({ name: 'John', notificationCount: 5 });
+
+  const handleLanguageChange = (language: string) => {
+    i18n.changeLanguage(language);
+  };
+
+  return (
+    <div>
+      <header>
+        <h1>{t('dashboard:title')}</h1>
+        <select 
+          value={i18n.language} 
+          onChange={(e) => handleLanguageChange(e.target.value)}
+        >
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="fr">Français</option>
+        </select>
+      </header>
+      
+      <main>
+        <p>{t('dashboard:welcomeMessage', { name: user.name })}</p>
+        <p>{t('dashboard:notificationCount', { count: user.notificationCount })}</p>
+        <p>{t('common:lastLogin', { date: new Date() })}</p>
+      </main>
+    </div>
+  );
+}`,
+    commonInterviewPoints: [
+      "Namespace usage: Can specify which translation namespace to use useTranslation('ns') or multiple useTranslation(['ns1', 'ns2'])",
+      "Language detection: Automatically detects browser language but can be overridden",
+      "Re-rendering: Component re-renders automatically when language changes",
+      "Key fallback: Falls back to default language or key itself if translation is missing",
+      "Performance: Efficiently loads only needed translation files with lazy loading support",
+    ],
+  },
+  {
+    name: "useFormContext",
+    definition:
+      "The useFormContext hook is part of React Hook Form that allows components to access form context and methods without needing to pass props through every level of the component tree.",
+    characteristics: [
+      "Context consumption: Accesses the form context provided by FormProvider",
+      "Prop drilling elimination: Eliminates the need to pass form methods through multiple component layers",
+      "Performance optimized: Only re-renders when specific form state changes occur",
+      "TypeScript support: Fully typed with proper TypeScript definitions for form context",
+    ],
+    basicExampleCode: `import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+
+function FormWrapper() {
+  const methods = useForm();
+  
+  return (
+    <FormProvider {...methods}>
+      <FormComponent />
+    </FormProvider>
+  );
+}
+
+function FormComponent() {
+  const { register, handleSubmit } = useFormContext();
+  
+  return (
+    <form onSubmit={handleSubmit(data => console.log(data))}>
+      <input {...register('name')} placeholder="Name" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}`,
+    advancedExampleCode: `import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
+
+type FormData = z.infer<typeof schema>;
+
+function LoginForm() {
+  const methods = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  return (
+    <FormProvider {...methods}>
+      <FormHeader />
+      <FormFields />
+      <FormActions />
+    </FormProvider>
+  );
+}
+
+function FormHeader() {
+  const { formState: { errors } } = useFormContext<FormData>();
+  
+  return (
+    <div>
+      <h1>Login</h1>
+      {errors.root && <p className="error">{errors.root.message}</p>}
+    </div>
+  );
+}
+
+function FormFields() {
+  const { register, formState: { errors } } = useFormContext<FormData>();
+  
+  return (
+    <div>
+      <input {...register('email')} placeholder="Email" />
+      {errors.email && <span>{errors.email.message}</span>}
+      
+      <input {...register('password')} type="password" placeholder="Password" />
+      {errors.password && <span>{errors.password.message}</span>}
+    </div>
+  );
+}
+
+function FormActions() {
+  const { handleSubmit, formState: { isSubmitting } } = useFormContext<FormData>();
+  
+  const onSubmit = (data: FormData) => {
+    console.log('Form data:', data);
+  };
+
+  return (
+    <button 
+      onClick={handleSubmit(onSubmit)} 
+      disabled={isSubmitting}
+    >
+      {isSubmitting ? 'Logging in...' : 'Login'}
+    </button>
+  );
+}`,
+    commonInterviewPoints: [
+      "Provider requirement: Must be used within a FormProvider component, otherwise it will throw an error",
+      "Performance benefits: More efficient than prop drilling in complex form hierarchies",
+      "Type safety: Proper TypeScript generics ensure type safety across form components",
+      "Use case scenarios: Ideal for large forms split across multiple components or reusable form components",
+    ],
+  },
+  {
+    name: "useMemo",
+    definition:
+      "Think of useMemo like a smart calculator that remembers its answers. Just like how you'd write down the result of a difficult math problem so you don't have to solve it again every time, useMemo stores the result of complex calculations and only recalculates when the inputs change.",
+    characteristics: [
+      "Performance optimization: Memoizes expensive calculations to avoid redundant computations",
+      "Dependency-driven: Recalculates only when specified dependencies change",
+      "Referential equality: Returns the same cached value unless dependencies update",
+      "Computational cost: Ideal for costly operations like complex calculations or large data transformations",
+    ],
+    basicExampleCode: `import { useMemo, useState } from 'react';
+
+function ExpensiveCalculationComponent() {
+  const [number, setNumber] = useState(0);
+  const [otherValue, setOtherValue] = useState(0);
+
+  const expensiveValue = useMemo(() => {
+    console.log('Calculating expensive value...');
+    return number * 1000; // Simulating expensive calculation
+  }, [number]);
+
+  return (
+    <div>
+      <p>Number: {number}</p>
+      <p>Expensive Value: {expensiveValue}</p>
+      <p>Other Value: {otherValue}</p>
+      <button onClick={() => setNumber(n => n + 1)}>
+        Increment Number
+      </button>
+      <button onClick={() => setOtherValue(v => v + 1)}>
+        Increment Other Value
+      </button>
+    </div>
+  );
+}`,
+    advancedExampleCode: `import { useMemo, useState, useEffect } from 'react';
+
+interface User {
+  id: number;
+  name: string;
+  age: number;
+  department: string;
+}
+
+function UserDashboard() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [filter, setFilter] = useState('');
+  const [sortBy, setSortBy] = useState<'name' | 'age'>('name');
+
+  // Expensive filtering and sorting operation
+  const filteredAndSortedUsers = useMemo(() => {
+    console.log('Filtering and sorting users...');
+    const filtered = users.filter(user =>
+      user.name.toLowerCase().includes(filter.toLowerCase()) ||
+      user.department.toLowerCase().includes(filter.toLowerCase())
+    );
+    
+    return filtered.sort((a, b) => {
+      if (sortBy === 'name') {
+        return a.name.localeCompare(b.name);
+      }
+      return a.age - b.age;
+    });
+  }, [users, filter, sortBy]);
+
+  // Memoized statistics
+  const userStats = useMemo(() => {
+    return {
+      total: filteredAndSortedUsers.length,
+      averageAge: filteredAndSortedUsers.reduce((sum, user) => sum + user.age, 0) / filteredAndSortedUsers.length || 0,
+      departments: [...new Set(filteredAndSortedUsers.map(user => user.department))],
+    };
+  }, [filteredAndSortedUsers]);
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Filter users..."
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value as 'name' | 'age')}>
+        <option value="name">Sort by Name</option>
+        <option value="age">Sort by Age</option>
+      </select>
+      
+      <div>
+        <h3>Statistics</h3>
+        <p>Total Users: {userStats.total}</p>
+        <p>Average Age: {userStats.averageAge.toFixed(1)}</p>
+      </div>
+      
+      <div>
+        {filteredAndSortedUsers.map(user => (
+          <div key={user.id}>
+            {user.name} - {user.age} - {user.department}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}`,
+    commonInterviewPoints: [
+      "Dependency array: Empty array means calculation runs once, no dependencies means it runs on every render",
+      "When to use: Only for expensive computations, not for trivial calculations",
+      "Referential equality: Useful for maintaining stable object references in dependency arrays",
+      "Performance trade-off: The memoization itself has cost, so only use when benefits outweigh overhead",
+      "Not a guarantee: React may still choose to recalculate for memory management reasons",
+    ],
+  },
+  {
+    name: "useCallback",
+    definition:
+      "Imagine useCallback as giving someone your phone number. Instead of writing it on a new piece of paper every time they need it, you give them a business card that stays the same. Similarly, useCallback gives components the same function reference unless the dependencies change, preventing unnecessary work.",
+    characteristics: [
+      "Function memoization: Returns a memoized version of the callback function",
+      "Dependency-driven: Creates new function only when dependencies change",
+      "Referential stability: Maintains same function reference across renders unless dependencies update",
+      "Performance optimization: Prevents unnecessary re-renders of child components that depend on function props",
+    ],
+    basicExampleCode: `import { useCallback, useState } from 'react';
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+  const [value, setValue] = useState('');
+
+  // This function is re-created on every render without useCallback
+  const handleIncrement = useCallback(() => {
+    setCount(c => c + 1);
+  }, []); // No dependencies, so function reference stays the same
+
+  const handleChange = useCallback((newValue: string) => {
+    setValue(newValue);
+  }, []);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <ChildComponent onIncrement={handleIncrement} />
+      <InputComponent value={value} onChange={handleChange} />
+    </div>
+  );
+}
+
+// React.memo prevents re-renders if props haven't changed
+const ChildComponent = React.memo(({ onIncrement }) => {
+  console.log('ChildComponent rendered');
+  return <button onClick={onIncrement}>Increment</button>;
+});
+
+const InputComponent = React.memo(({ value, onChange }) => {
+  console.log('InputComponent rendered');
+  return (
+    <input
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder="Type something..."
+    />
+  );
+});`,
+    advancedExampleCode: `import { useCallback, useState, useEffect } from 'react';
+
+interface Todo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
+
+function TodoApp() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [filter, setFilter] = useState<'all' | 'active' | 'completed'>('all');
+
+  // Memoized todo actions
+  const addTodo = useCallback((text: string) => {
+    const newTodo: Todo = {
+      id: Date.now(),
+      text,
+      completed: false,
+    };
+    setTodos(prev => [...prev, newTodo]);
+  }, []);
+
+  const toggleTodo = useCallback((id: number) => {
+    setTodos(prev =>
+      prev.map(todo =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  }, []);
+
+  const deleteTodo = useCallback((id: number) => {
+    setTodos(prev => prev.filter(todo => todo.id !== id));
+  }, []);
+
+  const clearCompleted = useCallback(() => {
+    setTodos(prev => prev.filter(todo => !todo.completed));
+  }, []);
+
+  // Filtered todos calculation
+  const filteredTodos = useCallback(() => {
+    switch (filter) {
+      case 'active':
+        return todos.filter(todo => !todo.completed);
+      case 'completed':
+        return todos.filter(todo => todo.completed);
+      default:
+        return todos;
+    }
+  }, [todos, filter]);
+
+  return (
+    <div>
+      <TodoHeader onAddTodo={addTodo} />
+      <TodoFilter currentFilter={filter} onFilterChange={setFilter} />
+      <TodoList
+        todos={filteredTodos()}
+        onToggleTodo={toggleTodo}
+        onDeleteTodo={deleteTodo}
+      />
+      <TodoFooter
+        todoCount={todos.length}
+        completedCount={todos.filter(t => t.completed).length}
+        onClearCompleted={clearCompleted}
+      />
+    </div>
+  );
+}
+
+// Memoized child components
+const TodoHeader = React.memo(({ onAddTodo }) => {
+  const [text, setText] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (text.trim()) {
+      onAddTodo(text.trim());
+      setText('');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Add a new todo..."
+      />
+      <button type="submit">Add</button>
+    </form>
+  );
+});
+
+const TodoList = React.memo(({ todos, onToggleTodo, onDeleteTodo }) => {
+  return (
+    <ul>
+      {todos.map(todo => (
+        <TodoItem
+          key={todo.id}
+          todo={todo}
+          onToggle={onToggleTodo}
+          onDelete={onDeleteTodo}
+        />
+      ))}
+    </ul>
+  );
+});
+
+const TodoItem = React.memo(({ todo, onToggle, onDelete }) => {
+  return (
+    <li>
+      <input
+        type="checkbox"
+        checked={todo.completed}
+        onChange={() => onToggle(todo.id)}
+      />
+      <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+        {todo.text}
+      </span>
+      <button onClick={() => onDelete(todo.id)}>Delete</button>
+    </li>
+  );
+});`,
+    commonInterviewPoints: [
+      "Dependency requirements: Include all values from component scope that are used in the callback",
+      "When to use: Primarily when passing callbacks to optimized child components that rely on reference equality",
+      "Performance impact: Overusing useCallback can be worse than not using it due to function creation overhead",
+      "useCallback vs useMemo: useCallback memoizes functions, useMemo memoizes values",
+      "Common use cases: Event handlers, prop functions for memoized components, dependencies for other hooks",
+    ],
+  },
+  {
+    name: "useNavigate",
+    definition:
+      "Think of useNavigate as a remote control for your app's navigation. Just like you'd use a TV remote to change channels without touching the TV, useNavigate lets you move users between pages programmatically without them clicking on links.",
+    characteristics: [
+      "Programmatic navigation: Enables navigation through function calls rather than Link components",
+      "Relative navigation: Supports relative and absolute path navigation",
+      "Navigation options: Allows passing state, replace behavior, and delta steps for go-back functionality",
+      "Route management: Integrates with React Router's routing system and history stack",
+    ],
+    basicExampleCode: `import { useNavigate } from 'react-router-dom';
+
+function NavigationComponent() {
+  const navigate = useNavigate();
+
+  return (
+    <div>
+      <button onClick={() => navigate('/')}>Home</button>
+      <button onClick={() => navigate('/about')}>About</button>
+      <button onClick={() => navigate(-1)}>Go Back</button>
+    </div>
+  );
+}`,
+    advancedExampleCode: `import { useNavigate } from 'react-router-dom';
+
+function UserProfile() {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // Simulate login success
+    navigate('/dashboard', { 
+      state: { user: 'John Doe' },
+      replace: true 
+    });
+  };
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
+  return (
+    <div>
+      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleGoBack}>Back</button>
+    </div>
+  );
+}`,
+    commonInterviewPoints: [
+      "Replace vs push: Use { replace: true } to replace current entry in history stack instead of adding new one",
+      "Relative paths: Navigate relative to current route using relative paths like '../parent' or './child'",
+      "State management: Can pass state object that's accessible via useLocation in the target component",
+      "Number navigation: Positive numbers go forward, negative numbers go back in history stack",
+      "v5 vs v6: Replaces useHistory().push() and useHistory().replace() from React Router v5",
+    ],
+  },
+  {
+    name: "useForm",
+    definition:
+      "Think of useForm as a smart assistant that helps you manage forms effortlessly. Just like how a personal assistant would handle all your paperwork, tracking every field, validating information, and organizing everything neatly, useForm takes care of all form state, validation, and submission logic for you.",
+    characteristics: [
+      "Form state management: Automatically manages form values, errors, and submission state",
+      "Built-in validation: Provides easy validation with support for custom validation rules",
+      "Performance optimized: Minimizes re-renders by tracking only necessary form state",
+      "Developer experience: Reduces boilerplate code and simplifies form handling logic",
+    ],
+    basicExampleCode: `import { useForm } from 'react-hook-form';
+
+function ContactForm() {
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input 
+        {...register('name', { required: 'Name is required' })} 
+        placeholder="Name" 
+      />
+      {errors.name && <p>{errors.name.message}</p>}
+      
+      <input 
+        {...register('email', { 
+          required: 'Email is required',
+          pattern: {
+            value: /^\\S+@\\S+$/i,
+            message: 'Invalid email address'
+          }
+        })} 
+        placeholder="Email" 
+      />
+      {errors.email && <p>{errors.email.message}</p>}
+      
+      <button type="submit">Submit</button>
+    </form>
+  );
+}`,
+    advancedExampleCode: `import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const schema = z.object({
+  username: z.string().min(3, 'Username must be at least 3 characters'),
+  email: z.string().email('Invalid email address'),
+  age: z.number().min(18, 'Must be at least 18 years old'),
+  preferences: z.object({
+    newsletter: z.boolean(),
+    notifications: z.boolean(),
+  }),
+});
+
+type FormData = z.infer<typeof schema>;
+
+function UserRegistrationForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+    watch,
+    setValue,
+    reset,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      preferences: {
+        newsletter: true,
+        notifications: false,
+      },
+    },
+    mode: 'onChange',
+  });
+
+  // Watch specific field
+  const newsletterEnabled = watch('preferences.newsletter');
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      await submitUserData(data);
+      reset();
+      alert('Registration successful!');
+    } catch (error) {
+      alert('Registration failed. Please try again.');
+    }
+  };
+
+  const handleAgeIncrement = () => {
+    const currentAge = parseInt(watch('age') || '0');
+    setValue('age', currentAge + 1, { shouldValidate: true });
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
+        <input {...register('username')} placeholder="Username" />
+        {errors.username && <p>{errors.username.message}</p>}
+      </div>
+
+      <div>
+        <input {...register('email')} placeholder="Email" />
+        {errors.email && <p>{errors.email.message}</p>}
+      </div>
+
+      <div>
+        <input 
+          type="number" 
+          {...register('age', { valueAsNumber: true })} 
+          placeholder="Age" 
+        />
+        <button type="button" onClick={handleAgeIncrement}>+</button>
+        {errors.age && <p>{errors.age.message}</p>}
+      </div>
+
+      <div>
+        <label>
+          <input type="checkbox" {...register('preferences.newsletter')} />
+          Subscribe to newsletter
+        </label>
+        
+        {newsletterEnabled && (
+          <label>
+            <input type="checkbox" {...register('preferences.notifications')} />
+            Enable notifications
+          </label>
+        )}
+      </div>
+
+      <button type="submit" disabled={isSubmitting || !isValid}>
+        {isSubmitting ? 'Submitting...' : 'Register'}
+      </button>
+    </form>
+  );
+}`,
+    commonInterviewPoints: [
+      "Performance benefits: Reduces re-renders compared to controlled components with useState",
+      "Validation strategies: Supports onChange, onBlur, onSubmit, and all validation modes",
+      "Uncontrolled vs controlled: Primarily uses uncontrolled components with refs for better performance",
+      "Integration: Works well with validation libraries like Yup, Zod, and Joi",
+      "File handling: Supports file inputs and complex form structures with nested objects",
+    ],
+  },
+  {
+    name: "FormProvider",
+    definition:
+      "Think of FormProvider as a message board that lets all components in a form share information without passing notes. Just like how a family uses a central bulletin board to leave messages for each other, FormProvider allows form components to access form state and methods without manually passing props through every level.",
+    characteristics: [
+      "Context provider: Provides form context to all child components",
+      "Prop drilling elimination: Removes the need to pass form methods through multiple components",
+      "Component composition: Enables building complex forms from smaller, reusable components",
+      "Performance optimized: Works efficiently with React's context system",
+    ],
+    basicExampleCode: `import { useForm, FormProvider } from 'react-hook-form';
+
+function App() {
+  const methods = useForm();
+  
+  return (
+    <FormProvider {...methods}>
+      <UserForm />
+    </FormProvider>
+  );
+}
+
+function UserForm() {
+  const { register, handleSubmit } = useFormContext();
+  
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('name')} placeholder="Name" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}`,
+    advancedExampleCode: `import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+
+function MultiStepForm() {
+  const methods = useForm({
+    defaultValues: {
+      personal: { name: '', email: '' },
+      address: { street: '', city: '' }
+    }
+  });
+
+  return (
+    <FormProvider {...methods}>
+      <div>
+        <PersonalInfoStep />
+        <AddressStep />
+        <FormActions />
+      </div>
+    </FormProvider>
+  );
+}
+
+function PersonalInfoStep() {
+  const { register, formState: { errors } } = useFormContext();
+  
+  return (
+    <div>
+      <h3>Personal Information</h3>
+      <input 
+        {...register('personal.name', { required: 'Name is required' })} 
+        placeholder="Name" 
+      />
+      {errors.personal?.name && <span>{errors.personal.name.message}</span>}
+      
+      <input 
+        {...register('personal.email', { required: 'Email is required' })} 
+        placeholder="Email" 
+      />
+      {errors.personal?.email && <span>{errors.personal.email.message}</span>}
+    </div>
+  );
+}
+
+function AddressStep() {
+  const { register, formState: { errors } } = useFormContext();
+  
+  return (
+    <div>
+      <h3>Address Information</h3>
+      <input 
+        {...register('address.street', { required: 'Street is required' })} 
+        placeholder="Street" 
+      />
+      {errors.address?.street && <span>{errors.address.street.message}</span>}
+      
+      <input 
+        {...register('address.city', { required: 'City is required' })} 
+        placeholder="City" 
+      />
+      {errors.address?.city && <span>{errors.address.city.message}</span>}
+    </div>
+  );
+}
+
+function FormActions() {
+  const { handleSubmit, formState: { isSubmitting } } = useFormContext();
+  
+  const onSubmit = (data) => {
+    console.log('Form data:', data);
+  };
+
+  return (
+    <button onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+      {isSubmitting ? 'Submitting...' : 'Submit'}
+    </button>
+  );
+}`,
+    commonInterviewPoints: [
+      "useFormContext requirement: FormProvider must be used with useFormContext in child components",
+      "Performance: More efficient than prop drilling in deep component trees",
+      "Type safety: Works well with TypeScript for type-safe form context",
+      "Use cases: Ideal for multi-step forms, reusable form components, and complex form layouts",
+      "Error handling: Provides access to form errors and validation state across components",
+    ],
+  },
+  {
+    name: "useContext",
+    definition:
+      "Think of useContext as a family telephone that lets everyone hear the same message without repeating it. Just like how one announcement on a home intercom reaches every room, useContext allows components to access shared data without passing props through every level.",
+    characteristics: [
+      "Context consumption: Accesses values from the nearest Context Provider",
+      "Prop drilling solution: Eliminates the need to pass props through intermediate components",
+      "Re-render trigger: Component re-renders when the context value changes",
+      "Performance consideration: Optimize with memoization to prevent unnecessary re-renders",
+    ],
+    basicExampleCode: `import { createContext, useContext, useState } from 'react';
+
+const ThemeContext = createContext();
+
+function App() {
+  const [theme, setTheme] = useState('light');
+  
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <Header />
+      <MainContent />
+    </ThemeContext.Provider>
+  );
+}
+
+function Header() {
+  const { theme, setTheme } = useContext(ThemeContext);
+  
+  return (
+    <header style={{ background: theme === 'light' ? '#fff' : '#333' }}>
+      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>
+        Toggle Theme
+      </button>
+    </header>
+  );
+}
+
+function MainContent() {
+  const { theme } = useContext(ThemeContext);
+  
+  return (
+    <main style={{ 
+      background: theme === 'light' ? '#f5f5f5' : '#222',
+      color: theme === 'light' ? '#000' : '#fff'
+    }}>
+      <h1>Welcome to our app!</h1>
+    </main>
+  );
+}`,
+    advancedExampleCode: `import { createContext, useContext, useReducer, useMemo } from 'react';
+
+const AuthContext = createContext();
+
+const authReducer = (state, action) => {
+  switch (action.type) {
+    case 'LOGIN':
+      return { ...state, user: action.payload, isAuthenticated: true };
+    case 'LOGOUT':
+      return { ...state, user: null, isAuthenticated: false };
+    case 'SET_LOADING':
+      return { ...state, loading: action.payload };
+    default:
+      return state;
+  }
+};
+
+const initialState = {
+  user: null,
+  isAuthenticated: false,
+  loading: false
+};
+
+function AuthProvider({ children }) {
+  const [state, dispatch] = useReducer(authReducer, initialState);
+  
+  const actions = useMemo(() => ({
+    login: (userData) => {
+      dispatch({ type: 'SET_LOADING', payload: true });
+      setTimeout(() => {
+        dispatch({ type: 'LOGIN', payload: userData });
+        dispatch({ type: 'SET_LOADING', payload: false });
+      }, 1000);
+    },
+    logout: () => dispatch({ type: 'LOGOUT' }),
+  }), []);
+
+  const value = useMemo(() => ({
+    ...state,
+    ...actions
+  }), [state, actions]);
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+function LoginButton() {
+  const { login, loading } = useContext(AuthContext);
+  
+  const handleLogin = () => {
+    login({ id: 1, name: 'John Doe', email: 'john@example.com' });
+  };
+
+  return (
+    <button onClick={handleLogin} disabled={loading}>
+      {loading ? 'Logging in...' : 'Login'}
+    </button>
+  );
+}
+
+function UserProfile() {
+  const { user, isAuthenticated, logout } = useContext(AuthContext);
+  
+  if (!isAuthenticated) {
+    return <p>Please log in</p>;
+  }
+
+  return (
+    <div>
+      <h2>Welcome, {user.name}!</h2>
+      <p>Email: {user.email}</p>
+      <button onClick={logout}>Logout</button>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <div>
+        <LoginButton />
+        <UserProfile />
+      </div>
+    </AuthProvider>
+  );
+}`,
+    commonInterviewPoints: [
+      "Provider requirement: Must be used within a matching Context Provider, otherwise uses default value",
+      "Performance impact: Can cause unnecessary re-renders if context value changes frequently",
+      "Optimization strategies: Use memoization, splitting contexts, or useMemo to prevent re-renders",
+      "Multiple contexts: A component can use multiple useContext hooks for different contexts",
+      "Default value: The value passed to createContext is used when no Provider is found in the tree",
+    ],
+  },
 ];
 
 export const HooksData: React.FC = () => {
