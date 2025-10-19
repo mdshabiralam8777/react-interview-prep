@@ -13,6 +13,7 @@ import Todo from "./components/Todo";
 import { HooksData } from "./ReactHooks/HooksData";
 import Accordion from "./components/Accordion";
 import ProgressBar from "./components/ProgressBar";
+import TrafficLight from "./components/TrafficLight";
 
 // import NotFound from './pages/NotFound';
 
@@ -69,5 +70,9 @@ export const AppRoutes: RouteObject[] = [
   {
     path: "/progress-bar",
     element: <ProgressBar />,
+  },
+  {
+    path: "/traffic-light",
+    element: <TrafficLight />,
   },
 ];
