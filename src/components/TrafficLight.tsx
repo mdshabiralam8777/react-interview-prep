@@ -6,7 +6,7 @@ const TrafficLight: React.FC = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % colors.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % 3);
     }, 2000);
 
     return () => clearInterval(timer);
@@ -21,7 +21,7 @@ const TrafficLight: React.FC = () => {
           style={{
             width: "100px",
             height: "100px",
-            background: colors[currentIndex] === "red" ? "#E60000" : "gray",
+            background: colors[currentIndex] === "red" ? "red" : "gray",
           }}
         ></div>
         <div
@@ -29,7 +29,7 @@ const TrafficLight: React.FC = () => {
           style={{
             width: "100px",
             height: "100px",
-            background: colors[currentIndex] === "yellow" ? "#FF7800`" : "gray",
+            background: colors[currentIndex] === "yellow" ? "yellow" : "gray",
           }}
         ></div>
         <div
@@ -37,7 +37,7 @@ const TrafficLight: React.FC = () => {
           style={{
             width: "100px",
             height: "100px",
-            background: colors[currentIndex] === "green" ? "#4CBB17" : "gray",
+            background: colors[currentIndex] === "green" ? "green" : "gray",
           }}
         ></div>
       </div>
