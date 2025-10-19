@@ -39,6 +39,7 @@ const Sidebar = () => {
       <StyledNavLink to="/infinite-scroll">Infinite Scroll</StyledNavLink>
       <StyledNavLink to="/skeleton">Skeleton</StyledNavLink>
       <StyledNavLink to="/todo">To-Do</StyledNavLink>
+      <StyledNavLink to="/accordion">Accordion</StyledNavLink>
     </Nav>
   );
 };

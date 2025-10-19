@@ -11,6 +11,7 @@ import InfiniteScroll from "./components/InfiniteScroll";
 import Skeleton from "./components/Skeleton";
 import Todo from "./components/Todo";
 import { HooksData } from "./ReactHooks/HooksData";
+import Accordion from "./components/Accordion";
 
 // import NotFound from './pages/NotFound';
 
@@ -59,5 +60,9 @@ export const AppRoutes: RouteObject[] = [
   {
     path: "/todo",
     element: <Todo />,
+  },
+  {
+    path: "/accordion",
+    element: <Accordion />,
   },
 ];
