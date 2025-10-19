@@ -10,9 +10,9 @@ const ProgressBar: React.FC = () => {
           clearInterval(timer);
           return 100;
         }
-        return prev + 5;
+        return prev + 10;
       });
-    }, 30);
+    }, 1000);
 
     return () => {
       clearInterval(timer);
@@ -23,14 +23,17 @@ const ProgressBar: React.FC = () => {
     <>
       <h3>Progress Bar</h3>
       <div
-        className="progress-bar rounded mt-4"
+        className="progress-bar rounded mt-4 py-3"
         style={{
           height: "15px",
           border: "1px solid black",
           background: "#000000",
+          color: "#FFFFFF",
           width: `${progressWidth}%`,
         }}
-      ></div>
+      >
+        {progressWidth}%
+      </div>
     </>
   );
 };
