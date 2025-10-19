@@ -12,6 +12,7 @@ import Skeleton from "./components/Skeleton";
 import Todo from "./components/Todo";
 import { HooksData } from "./ReactHooks/HooksData";
 import Accordion from "./components/Accordion";
+import ProgressBar from "./components/ProgressBar";
 
 // import NotFound from './pages/NotFound';
 
@@ -64,5 +65,9 @@ export const AppRoutes: RouteObject[] = [
   {
     path: "/accordion",
     element: <Accordion />,
+  },
+  {
+    path: "/progress-bar",
+    element: <ProgressBar />,
   },
 ];

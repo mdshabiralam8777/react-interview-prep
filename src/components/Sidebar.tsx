@@ -40,6 +40,7 @@ const Sidebar = () => {
       <StyledNavLink to="/skeleton">Skeleton</StyledNavLink>
       <StyledNavLink to="/todo">To-Do</StyledNavLink>
       <StyledNavLink to="/accordion">Accordion</StyledNavLink>
+      <StyledNavLink to="/progress-bar">ProgressBar</StyledNavLink>
     </Nav>
   );
 };
