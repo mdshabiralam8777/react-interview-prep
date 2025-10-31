@@ -14,6 +14,7 @@ import { HooksData } from "./ReactHooks/HooksData";
 import Accordion from "./components/Accordion";
 import ProgressBar from "./components/ProgressBar";
 import TrafficLight from "./components/TrafficLight";
+import SlideShow from "./components/SlideShow";
 
 // import NotFound from './pages/NotFound';
 
@@ -74,5 +75,9 @@ export const AppRoutes: RouteObject[] = [
   {
     path: "/traffic-light",
     element: <TrafficLight />,
+  },
+  {
+    path: "/slide-show",
+    element: <SlideShow />,
   },
 ];

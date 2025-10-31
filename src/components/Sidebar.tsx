@@ -5,12 +5,12 @@ import { NavLink } from "react-router-dom";
 const Nav = styled.nav`
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: 0.5rem;
 `;
 
 const StyledNavLink = styled(NavLink)`
-  padding: 0.75rem 1rem;
-  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 0.3rem;
   border-radius: 4px;
   text-decoration: none;
   color: #333;
@@ -42,6 +42,7 @@ const Sidebar = () => {
       <StyledNavLink to="/accordion">Accordion</StyledNavLink>
       <StyledNavLink to="/progress-bar">ProgressBar</StyledNavLink>
       <StyledNavLink to="/traffic-light">Traffic Light</StyledNavLink>
+      <StyledNavLink to="/slide-show">Slide-Show</StyledNavLink>
     </Nav>
   );
 };
