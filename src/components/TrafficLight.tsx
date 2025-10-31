@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 const TrafficLight: React.FC = () => {
-  const colors = ["red", "yellow", "green"];
+  const colors = ["red", "orange", "green"];
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const TrafficLight: React.FC = () => {
           style={{
             width: "100px",
             height: "100px",
-            background: colors[currentIndex] === "red" ? "red" : "gray",
+            background: colors[currentIndex] === "red" ? "#cc3232" : "gray",
           }}
         ></div>
         <div
@@ -29,7 +29,7 @@ const TrafficLight: React.FC = () => {
           style={{
             width: "100px",
             height: "100px",
-            background: colors[currentIndex] === "yellow" ? "yellow" : "gray",
+            background: colors[currentIndex] === "orange" ? "#db7b2b" : "gray",
           }}
         ></div>
         <div
@@ -37,7 +37,7 @@ const TrafficLight: React.FC = () => {
           style={{
             width: "100px",
             height: "100px",
-            background: colors[currentIndex] === "green" ? "green" : "gray",
+            background: colors[currentIndex] === "green" ? "#2dc937" : "gray",
           }}
         ></div>
       </div>
